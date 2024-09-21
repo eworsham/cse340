@@ -6,12 +6,81 @@
 }
 
 /*****************************************
+*    VARIABLES
+******************************************/
+
+:root {
+  --primary-color: #AADDFF;
+  --secondary-color: #000000;
+  --accent-color: #C6878F;
+  --header-font: "Oswald", sans-serif;
+  --body-font: "Inter", sans-serif;
+}
+
+/*****************************************
+*    COMMON
+******************************************/
+body {
+  margin: 0;
+  font-family: var(--body-font);
+}
+
+h1,
+h2 {
+  font-family: var(--header-font);
+  margin: 1rem;
+}
+
+img {
+  width: 100%;
+  height: auto;
+}
+
+a {
+  text-decoration: none;
+  color: black;
+}
+
+/*****************************************
 *    HEADER
 ******************************************/
+header {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  margin: auto 0;
+  background-color: var(--primary-color);
+  padding: 1rem;
+}
+
+header span {
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+header div {
+  margin: auto 0;
+}
+
+header div a {
+  display: block;
+  text-align: right;
+}
 
 /*****************************************
 *    NAVIGATION
 ******************************************/
+nav ul {
+  display: flex;
+  justify-content: space-evenly;
+  background-color: var(--primary-color);
+  margin: 0;
+  padding: 1rem;
+}
+
+nav ul li {
+  list-style: none;
+  font-weight: 500;
+}
 
 /*****************************************
 *    INDEX
@@ -20,3 +89,6 @@
 /*****************************************
 *    FOOTER
 ******************************************/
+footer {
+  margin: 1rem;
+}
