@@ -1,5 +1,5 @@
 -- Query 1
-INSERT INTO account (
+INSERT INTO public.account (
         account_firstname,
         account_lastname,
         account_email,
@@ -11,18 +11,18 @@ VALUES (
         'tony@starkent.com',
         'Iam1ronM@n'
     );
-
+    
 -- Query 2
-UPDATE account
+UPDATE public.account
 SET account_type = 'Admin'
 WHERE account_firstname = 'Tony';
 
 -- Query 3
-DELETE FROM account
+DELETE FROM public.account
 WHERE account_firstname = 'Tony';
 
 -- Query 4
-UPDATE inventory
+UPDATE public.inventory
 SET inv_description = REPLACE(
         inv_description,
         'the small interiors',
@@ -35,11 +35,11 @@ WHERE inv_make = 'GM'
 SELECT inv_make,
     inv_model,
     classification_name
-FROM inventory
-    INNER JOIN classification ON inventory.classification_id = classification.classification_id
+FROM public.inventory
+    INNER JOIN public.classification ON public.inventory.classification_id = public.classification.classification_id
 WHERE classification_name = 'Sport';
 
 -- Query 6
-UPDATE inventory
+UPDATE public.inventory
 SET inv_image = REPLACE(inv_image, 'images', 'images/vehicles'),
     inv_thumbnail = REPLACE(inv_thumbnail, 'images', 'images/vehicles');
