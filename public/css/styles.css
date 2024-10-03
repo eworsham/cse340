@@ -165,6 +165,36 @@ nav ul li {
 }
 
 /*****************************************
+*    Inventory Index View
+******************************************/
+#inv-display {
+  padding: 1rem;
+}
+
+#inv-display li {
+  margin: 1rem auto;
+  list-style-type: none;
+  border: 1px solid black;
+  border-radius: .5rem;
+  max-width: 500px;
+}
+
+#inv-display img {
+  width: 100%;
+  border-radius: .5rem;
+}
+
+#inv-display hr {
+  height: .5rem;
+  background-color: black;
+}
+
+.namePrice span {
+  display: block;
+  padding: 1rem;
+}
+
+/*****************************************
 *    FOOTER
 ******************************************/
 
@@ -208,5 +238,16 @@ nav ul li {
     grid-row: 3/4;
     grid-column: 1/2;
   }
-}
 
+  /*****************************************
+  *    Inventory Index View
+  ******************************************/
+  #inv-display {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr
+  }
+
+  #inv-display li {
+    width: 250px;
+  }
+}
