@@ -19,4 +19,11 @@ invCont.buildByClassificationId = async function (req, res, next) {
     })
 }
 
+/* *******************************************
+ * Build vehicle details view
+ * ******************************************* */
+invCont.buildVehicleDetailsView = async function(req, res, next) {
+    
+}
+
 module.exports = invCont
