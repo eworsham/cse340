@@ -32,6 +32,9 @@ app.get("/", utilities.handleErrors(baseController.buildHome))
 // Inventory route
 app.use("/inv", inventoryRoute)
 
+// 500 Error route - should throw a 500 error that is handled by utilities.handleErrors
+app.get("/error500", utilities.handleErrors(baseController.error500))
+
 // File Not Found Route - must be last route in list
 app.use(async (req, res, next) => {
   next({

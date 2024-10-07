@@ -208,6 +208,12 @@ nav ul li {
 /*****************************************
 *    FOOTER
 ******************************************/
+.error-link {
+  display: block;
+  margin: 1rem;
+  text-decoration: underline;
+  color: blue;
+}
 
 /*****************************************
 *    CSS styles for larger screens
