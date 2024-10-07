@@ -52,6 +52,13 @@ Util.buildClassificationGrid = async function(data) {
 }
 
 /* ***************************************
+ * Build the vehicle details view HTML
+ * *************************************** */
+Util.buildVehicleDetailsView = async function (data) {
+    return ``
+}
+
+/* ***************************************
  * Middleware for Handling Errors
  * Wrap other function in this for
  * General Error Handling
