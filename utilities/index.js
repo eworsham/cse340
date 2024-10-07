@@ -55,7 +55,14 @@ Util.buildClassificationGrid = async function(data) {
  * Build the vehicle details view HTML
  * *************************************** */
 Util.buildVehicleDetailsView = async function (data) {
-    return ``
+    return `
+        <img src="${data.inv_image}" alt="Image of ${data.inv_make} ${data.inv_model} on CSE Motors">
+        <h2>${data.inv_make} ${data.inv_model} Details</h2>
+        <p><span class="">Price: </span>${data.inv_price}</p>
+        <p><span class="">Description: </span>${data.inv_description}</p>
+        <p><span class="">Color: </span>${data.inv_color}</p>
+        <p><span class="">Miles: </span>${data.inv_miles}</p>
+    `
 }
 
 /* ***************************************
