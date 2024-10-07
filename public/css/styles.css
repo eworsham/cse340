@@ -195,8 +195,25 @@ nav ul li {
 }
 
 /*****************************************
+*    Vehicle Details View
+******************************************/
+.vehicle-details img {
+  padding: 1rem;
+}
+
+.vehicle-details-title {
+  font-weight: 700;
+}
+
+/*****************************************
 *    FOOTER
 ******************************************/
+.error-link {
+  display: block;
+  margin: 1rem;
+  text-decoration: underline;
+  color: blue;
+}
 
 /*****************************************
 *    CSS styles for larger screens
@@ -249,5 +266,13 @@ nav ul li {
 
   #inv-display li {
     width: 250px;
+  }
+
+  /*****************************************
+  *    Vehicle Details View
+  ******************************************/
+  .vehicle-details {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
   }
 }
