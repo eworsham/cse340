@@ -1,0 +1,31 @@
+<% if (title) { %>
+    <h1><%= title %></h1>
+<% } else {
+    res.redirect('/')
+} %>
+
+<%- messages() %>
+
+<form action="submit" class="registration-form">
+    <label for="first_name"> First Name*</label>
+    <input type="text" name="first_name" id="firstName" autocomplete="given-name">
+
+    <label for="last_name">Last Name*</label>
+    <input type="text" name="last_name" id="lastName" autocomplete="family-name">
+
+    <label for="account_email">Email*</label>
+    <input type="email" name="account_email" id="accountEmail">
+
+    <label for="account_password">Password*</label>
+    <input type="password" name="account_password" id="accountPassword">
+
+    <p>Password must be:</p>
+    <ul>
+        <li>12 characters in length, minimum</li>
+        <li>contain at least 1 capital letter</li>
+        <li>contain at least 1 number</li>
+        <li>contain at least 1 special character</li>   
+    </ul>
+
+    <button type="submit">Register</button>
+</form>
