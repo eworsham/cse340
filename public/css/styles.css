@@ -50,6 +50,31 @@ a {
   font-style: italic;
 }
 
+form {
+  border: 1px solid black;
+  border-radius: .5rem;
+  padding: 1rem;
+  margin: 1rem auto;
+  display: grid;
+  max-width: 500px;
+}
+
+label,
+input {
+  margin: .5rem;
+}
+
+input {
+  padding: .5rem;
+  margin-top: 0;
+}
+
+button[type="submit"] {
+  width: 50%;
+  padding: .5rem;
+  margin: 1rem auto;
+}
+
 /*****************************************
 *    HEADER
 ******************************************/
@@ -208,6 +233,18 @@ nav ul li {
 
 .vehicle-details-title {
   font-weight: 700;
+}
+
+/*****************************************
+*    Login View
+******************************************/
+.registration-link {
+  text-align: center;
+}
+
+.login-form a {
+  text-decoration: underline;
+  color: blue;
 }
 
 /*****************************************

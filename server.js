@@ -12,6 +12,7 @@ const app = express()
 const static = require("./routes/static")
 const baseController = require("./controllers/baseController")
 const inventoryRoute = require("./routes/inventoryRoute")
+const accountRoute = require("./routes/accountRoute")
 const utilities = require('./utilities/')
 const session = require("express-session")
 const pool = require('./database/')
@@ -54,6 +55,9 @@ app.get("/", utilities.handleErrors(baseController.buildHome))
 
 // Inventory route
 app.use("/inv", inventoryRoute)
+
+// Account route
+app.use("/account", accountRoute)
 
 // 500 Error route - should throw a 500 error that is handled by utilities.handleErrors
 app.get("/error500", utilities.handleErrors(baseController.error500))
