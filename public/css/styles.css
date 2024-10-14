@@ -247,6 +247,14 @@ nav ul li {
   color: blue;
 }
 
+input:required:invalid, input:focus:invalid {
+  background-color: #ffb9b9;
+}
+
+input:required:valid {
+  background-color: #cefdce;
+}
+
 /*****************************************
 *    FOOTER
 ******************************************/
