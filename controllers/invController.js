@@ -72,4 +72,37 @@ invCont.buildAddInventoryView = async function(req, res, next) {
     })
 }
 
+/* *******************************************
+ * Proccess add new classification
+ * ******************************************* */
+invCont.addNewClassification = async function(req, res) {
+    const { classification_name}  = req.body
+
+    const result = await invModel.insertInventoryItem(classification_name)
+
+    if (result) {
+        let nav = await utilities.getNav()
+        req.flash(
+            "notice",
+            `You successfully added the ${classification_name} classification.`
+        )
+        res.status(201).render("inventory/add-classification", {
+            title: "Add New Classification",
+            nav,
+            errors: null,
+        })
+    } else {
+        let nav = await utilities.getNav()
+        req.flash(
+            "notice",
+            "Sorry, adding new classification failed."
+        )
+        res.status(501).render("inventory/add-classification", {
+            title: "Add New Classification",
+            nav,
+            errors: null,
+        })
+    }
+}
+
 module.exports = invCont

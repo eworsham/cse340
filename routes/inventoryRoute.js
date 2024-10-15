@@ -18,4 +18,10 @@ router.get("/add-classification", utilities.handleErrors(invController.buildAddC
 // Route to build add inventory view
 router.get("/add-inventory", utilities.handleErrors(invController.buildAddInventoryView))
 
+// Process adding a new classification
+router.post(
+    "/add-classification",
+    utilities.handleErrors(invController.addNewClassification)
+)
+
 module.exports = router
