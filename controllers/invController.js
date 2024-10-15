@@ -78,9 +78,9 @@ invCont.buildAddInventoryView = async function(req, res, next) {
  * Proccess add new classification
  * ******************************************* */
 invCont.addNewClassification = async function(req, res) {
-    const { classification_name}  = req.body
+    const { classification_name }  = req.body
 
-    const result = await invModel.insertInventoryItem(classification_name)
+    const result = await invModel.insertClassificationItem(classification_name)
 
     if (result) {
         let nav = await utilities.getNav()
@@ -88,7 +88,7 @@ invCont.addNewClassification = async function(req, res) {
             "notice",
             `The ${classification_name} classification was successfully added.`
         )
-        res.status(201).render("inventory/management", {
+        res.status(201).render("./inventory/management", {
             title: "Vehicle Management",
             nav,
         })
@@ -98,8 +98,52 @@ invCont.addNewClassification = async function(req, res) {
             "notice",
             "Sorry, adding new classification failed."
         )
-        res.status(501).render("inventory/add-classification", {
+        res.status(501).render("./inventory/add-classification", {
             title: "Add New Classification",
+            nav,
+            errors: null,
+        })
+    }
+}
+
+/* *******************************************
+ * Proccess add new inventory
+ * ******************************************* */
+invCont.addNewInventory = async function(req, res) {
+    let nav = await utilities.getNav()
+    const { classification_id, inv_make, inv_model, inv_description, inv_image, inv_thumbnail, inv_price, inv_year, inv_miles, inv_color }  = req.body
+
+    const result = await invModel.insertInventoryItem(
+        classification_id,
+        inv_make,
+        inv_model,
+        inv_description,
+        inv_image,
+        inv_thumbnail,
+        inv_price,
+        inv_year,
+        inv_miles,
+        inv_color
+    )
+
+    if (result) {
+        req.flash(
+            "notice",
+            `The ${inv_make} ${inv_model} was successfully added.`
+        )
+        res.status(201).render("./inventory/management", {
+            title: "Vehicle Management",
+            nav,
+        })
+    } else {
+        req.flash(
+            "notice",
+            "Sorry, adding new vehicle failed."
+        )
+        let classificationDropDown = await utilities.buildClassificationList(classification_id)
+        res.status(501).render("./inventory/add-inventory", {
+            title: "Add New Vehicle",
+            classificationDropDown,
             nav,
             errors: null,
         })

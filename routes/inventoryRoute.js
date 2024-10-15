@@ -27,4 +27,10 @@ router.post(
     utilities.handleErrors(invController.addNewClassification)
 )
 
+// Process adding a new inventory
+router.post(
+    "/add-inventory",
+    utilities.handleErrors(invController.addNewInventory)
+)
+
 module.exports = router
