@@ -30,6 +30,8 @@ router.post(
 // Process adding a new inventory
 router.post(
     "/add-inventory",
+    inventoryValidate.newInventoryRules(),
+    inventoryValidate.checkNewInventoryData,
     utilities.handleErrors(invController.addNewInventory)
 )
 

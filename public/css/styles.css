@@ -76,11 +76,13 @@ input {
   margin-top: 0;
 }
 
-input:required:invalid:focus {
+input:required:invalid:focus,
+textarea:required:invalid:focus {
   background-color: #ffb9b9;
 }
 
-input:required:valid {
+input:required:valid,
+textarea:required:valid {
   background-color: #cefdce;
 }
 
