@@ -65,7 +65,9 @@ form {
 }
 
 label,
-input {
+input,
+textarea,
+select {
   margin: .5rem;
 }
 
@@ -80,6 +82,14 @@ input:required:invalid:focus {
 
 input:required:valid {
   background-color: #cefdce;
+}
+
+textarea {
+  height: 75px;
+}
+
+select {
+  padding: .5rem;
 }
 
 button[type="submit"] {

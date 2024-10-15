@@ -65,9 +65,11 @@ invCont.buildAddClassificationView = async function(req, res, next) {
  * ******************************************* */
 invCont.buildAddInventoryView = async function(req, res, next) {
     let nav = await utilities.getNav()
+    let classificationDropDown = await utilities.buildClassificationList()
     res.render("./inventory/add-inventory", {
         title: 'Add New Vehicle',
         nav,
+        classificationDropDown,
         errors: null,
     })
 }
