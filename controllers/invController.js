@@ -37,4 +37,39 @@ invCont.buildVehicleDetailsView = async function(req, res, next) {
     })
 }
 
+/* *******************************************
+ * Build add classification view
+ * ******************************************* */
+invCont.buildManagementView = async function(req, res, next) {
+    let nav = await utilities.getNav()
+    res.render("./inventory/management", {
+        title: 'Vehicle Management',
+        nav,
+    })
+}
+
+/* *******************************************
+ * Build add classification view
+ * ******************************************* */
+invCont.buildAddClassificationView = async function(req, res, next) {
+    let nav = await utilities.getNav()
+    res.render("./inventory/add-classification", {
+        title: 'Add New Classification',
+        nav,
+        errors: null,
+    })
+}
+
+/* *******************************************
+ * Build add inventory view
+ * ******************************************* */
+invCont.buildAddInventoryView = async function(req, res, next) {
+    let nav = await utilities.getNav()
+    res.render("./inventory/add-inventory", {
+        title: 'Add New Vehicle',
+        nav,
+        errors: null,
+    })
+}
+
 module.exports = invCont

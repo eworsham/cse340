@@ -45,6 +45,11 @@ a {
   color: black;
 }
 
+.link {
+  text-decoration: underline;
+  color: blue;
+}
+
 .notice {
   color: red;
   font-style: italic;
