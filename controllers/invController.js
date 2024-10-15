@@ -84,7 +84,7 @@ invCont.addNewClassification = async function(req, res) {
         let nav = await utilities.getNav()
         req.flash(
             "notice",
-            `You successfully added the ${classification_name} classification.`
+            `The ${classification_name} classification was successfully added.`
         )
         res.status(201).render("inventory/management", {
             title: "Vehicle Management",
