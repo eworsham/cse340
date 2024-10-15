@@ -86,10 +86,9 @@ invCont.addNewClassification = async function(req, res) {
             "notice",
             `You successfully added the ${classification_name} classification.`
         )
-        res.status(201).render("inventory/add-classification", {
-            title: "Add New Classification",
+        res.status(201).render("inventory/management", {
+            title: "Vehicle Management",
             nav,
-            errors: null,
         })
     } else {
         let nav = await utilities.getNav()
