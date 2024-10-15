@@ -32,7 +32,8 @@ validate.checkNewClassificationData = async (req, res, next) => {
         res.render("inventory/add-classification", {
             errors,
             title: "Add New Classification",
-            nav
+            nav,
+            classification_name
         })
         return
     }
