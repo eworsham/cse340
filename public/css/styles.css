@@ -74,6 +74,14 @@ input {
   margin-top: 0;
 }
 
+input:required:invalid:focus {
+  background-color: #ffb9b9;
+}
+
+input:required:valid {
+  background-color: #cefdce;
+}
+
 button[type="submit"] {
   width: 50%;
   padding: .5rem;
@@ -250,14 +258,6 @@ nav ul li {
 .login-form a {
   text-decoration: underline;
   color: blue;
-}
-
-input:required:invalid, input:focus:invalid {
-  background-color: #ffb9b9;
-}
-
-input:required:valid {
-  background-color: #cefdce;
 }
 
 /*****************************************
