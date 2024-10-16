@@ -3,9 +3,9 @@ const { body, validationResult } = require("express-validator")
 const accountModel = require("../models/account-model")
 const validate = {}
 
-/*  **********************************
+/* ***********************************
  *  Registration Data Validation Rules
- * ********************************* */
+ * *********************************** */
 validate.registationRules = () => {
     return [
         // firstname is required and must be string

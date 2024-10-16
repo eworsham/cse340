@@ -45,6 +45,11 @@ a {
   color: black;
 }
 
+.link {
+  text-decoration: underline;
+  color: blue;
+}
+
 .notice {
   color: red;
   font-style: italic;
@@ -60,13 +65,33 @@ form {
 }
 
 label,
-input {
+input,
+textarea,
+select {
   margin: .5rem;
 }
 
 input {
   padding: .5rem;
   margin-top: 0;
+}
+
+input:required:invalid:focus,
+textarea:required:invalid:focus {
+  background-color: #ffb9b9;
+}
+
+input:required:valid,
+textarea:required:valid {
+  background-color: #cefdce;
+}
+
+textarea {
+  height: 75px;
+}
+
+select {
+  padding: .5rem;
 }
 
 button[type="submit"] {
@@ -245,14 +270,6 @@ nav ul li {
 .login-form a {
   text-decoration: underline;
   color: blue;
-}
-
-input:required:invalid, input:focus:invalid {
-  background-color: #ffb9b9;
-}
-
-input:required:valid {
-  background-color: #cefdce;
 }
 
 /*****************************************

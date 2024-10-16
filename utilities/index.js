@@ -79,4 +79,28 @@ Util.buildVehicleDetailsView = async function (data) {
  * *************************************** */
 Util.handleErrors = fn => (req, res, next) => Promise.resolve(fn(req, res, next)).catch(next)
 
+/* ***************************************
+ * Build the classification drop down list
+ * *************************************** */
+Util.buildClassificationList = async function (classification_id = null) {
+    let data = await invModel.getClassifications()
+    let classificationDropDown = `
+        <select name="classification_id" id="classificationId" required>
+            <option value=''>Choose a Classification</option>
+    `
+    data.rows.forEach((row) => {
+      classificationDropDown += `<option value="${row.classification_id}"`
+      if (
+        classification_id != null &&
+        row.classification_id == classification_id
+      ) {
+        classificationDropDown += " selected "
+      }
+      classificationDropDown += `>${row.classification_name}</option>`
+    })
+    classificationDropDown += "</select>"
+    return classificationDropDown
+  }
+
+
 module.exports = Util
