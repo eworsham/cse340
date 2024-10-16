@@ -111,7 +111,7 @@ validate.newInventoryRules = () => {
             .withMessage("Please provide a valid miles amount."),
 
         // inv_color is required
-        body("inv_miles")
+        body("inv_color")
             .trim()
             .escape()
             .notEmpty()
