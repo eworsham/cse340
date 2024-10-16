@@ -1,6 +1,5 @@
 const utilities = require(".")
 const { body, validationResult } = require("express-validator")
-const inventoryModel = require("../models/inventory-model")
 const validate = {}
 
 /* ***********************************
@@ -94,21 +93,21 @@ validate.newInventoryRules = () => {
             .isNumeric()
             .withMessage("Please provide a valid price."),
 
-        // inv_year is required, length of 4, should be a number
+        // inv_year is required, length of 4, should be a int
         body("inv_year")
             .trim()
             .escape()
             .notEmpty()
-            .isNumeric()
+            .isInt()
             .isLength({ min: 4, max: 4})
             .withMessage("Please provide a valid year."),
 
-        // inv_miles is required, should be a number
+        // inv_miles is required, should be a int
         body("inv_miles")
             .trim()
             .escape()
             .notEmpty()
-            .isNumeric()
+            .isInt()
             .withMessage("Please provide a valid miles amount."),
 
         // inv_color is required
