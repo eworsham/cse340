@@ -17,6 +17,7 @@ const utilities = require('./utilities/')
 const session = require("express-session")
 const pool = require('./database/')
 const bodyParser = require("body-parser")
+const cookieParser = require("cookie-parser")
 
 /* ***********************
 * Middleware
@@ -41,6 +42,12 @@ app.use(function(req, res, next){
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
+
+// Allow the cookieParser to be implemented throughout the project
+app.use(cookieParser())
+
+// Check JWT token if exists
+app.use(utilities.checkJWTToken)
 
 /* ***********************
  * View Engine and Templates
