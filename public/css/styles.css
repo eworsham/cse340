@@ -81,12 +81,14 @@ select {
 }
 
 input:required:invalid:focus,
-textarea:required:invalid:focus {
+textarea:required:invalid:focus,
+select:required:invalid:focus {
   background-color: #ffb9b9;
 }
 
 input:required:valid,
-textarea:required:valid {
+textarea:required:valid,
+select:required:valid {
   background-color: #cefdce;
 }
 
@@ -102,6 +104,26 @@ button[type="submit"] {
   width: 50%;
   padding: .5rem;
   margin: 1rem auto;
+}
+
+/*****************************************
+*    Table
+******************************************/
+table {
+  width: 90%;
+  margin: 1rem auto;
+}
+
+tr {
+  background-color: #eee;
+}
+
+td {
+  padding: .5rem;
+}
+
+#classificationSelect {
+  margin: .5rem;
 }
 
 /*****************************************
