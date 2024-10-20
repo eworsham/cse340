@@ -81,12 +81,14 @@ select {
 }
 
 input:required:invalid:focus,
-textarea:required:invalid:focus {
+textarea:required:invalid:focus,
+select:required:invalid:focus {
   background-color: #ffb9b9;
 }
 
 input:required:valid,
-textarea:required:valid {
+textarea:required:valid,
+select:required:valid {
   background-color: #cefdce;
 }
 
