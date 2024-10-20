@@ -194,4 +194,63 @@ invCont.modifyInventoryView = async (req, res, next) => {
     })
 }
 
+/* *******************************************
+ * Proccess modify inventory
+ * ******************************************* */
+invCont.updateInventory = async function(req, res) {
+    let nav = await utilities.getNav()
+    const { inv_id, classification_id, inv_make, inv_model, inv_description, inv_image, inv_thumbnail, inv_price, inv_year, inv_miles, inv_color }  = req.body
+
+    const result = await invModel.updateInventory(
+        inv_id,
+        classification_id,
+        inv_make,
+        inv_model,
+        inv_description,
+        inv_image,
+        inv_thumbnail,
+        inv_price,
+        inv_year,
+        inv_miles,
+        inv_color
+    )
+
+    if (result) {
+        req.flash(
+            "notice",
+            `The ${inv_make} ${inv_model} was successfully updated.`
+        )
+        const classificationSelect = await utilities.buildClassificationList()
+        res.status(201).render("./inventory/management", {
+            title: "Vehicle Management",
+            nav,
+            classificationSelect
+        })
+    } else {
+        req.flash(
+            "notice",
+            "Sorry, updating vehicle failed."
+        )
+        let classificationDropDown = await utilities.buildClassificationList(classification_id)
+        const itemName = `${inv_make} ${inv_model}`
+        res.status(501).render("./inventory/edit-inventory", {
+            title: `Edit ${itemName}`,
+            classificationDropDown,
+            nav,
+            errors: null,
+            inv_id,
+            classification_id,
+            inv_make,
+            inv_model,
+            inv_year,
+            inv_description,
+            inv_image,
+            inv_thumbnail,
+            inv_price,
+            inv_miles,
+            inv_color
+        })
+    }
+}
+
 module.exports = invCont
