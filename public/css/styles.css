@@ -105,6 +105,26 @@ button[type="submit"] {
 }
 
 /*****************************************
+*    Table
+******************************************/
+table {
+  width: 90%;
+  margin: 1rem auto;
+}
+
+tr {
+  background-color: #eee;
+}
+
+td {
+  padding: .5rem;
+}
+
+#classificationSelect {
+  margin: .5rem;
+}
+
+/*****************************************
 *    HEADER
 ******************************************/
 header {
