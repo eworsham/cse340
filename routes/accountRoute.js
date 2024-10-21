@@ -47,4 +47,12 @@ router.post(
     utilities.handleErrors(accountController.accountLogin)
 )
 
+// Process update account info
+router.post(
+    "/edit-account",
+    accountValidate.editAccountInfoRules(),
+    accountValidate.checkEditAccountInfoData,
+    utilities.handleErrors(accountController.updateAccountInfo)
+)
+
 module.exports = router

@@ -18,15 +18,32 @@
     <h2>Edit Account Information</h2>
 
     <label for="account_firstname"> First Name</label>
-    <input type="text" name="account_firstname" id="account_firstname" autocomplete="given-name" required value="<%= locals.accountData.account_firstname %>">
+    <input type="text" name="account_firstname" id="account_firstname" autocomplete="given-name" required
+        <% if (locals.account_firstname) { %>
+            value="<%= locals.account_firstname %>">
+        <% } else { %>
+            value="<%= locals.accountData.account_firstname %>">
+        <% } %>
 
     <label for="account_lastname">Last Name</label>
-    <input type="text" name="account_lastname" id="account_lastname" autocomplete="family-name" required value="<%= locals.accountData.account_lastname %>">
+    <input type="text" name="account_lastname" id="account_lastname" autocomplete="family-name" required
+        <% if (locals.account_lastname) { %>
+            value="<%= locals.account_lastname %>">
+        <% } else { %>
+            value="<%= locals.accountData.account_lastname %>">
+        <% } %>
 
     <label for="account_email">Email</label>
-    <input type="email" name="account_email" id="account_email" required value="<%= locals.accountData.account_email %>">
+    <input type="email" name="account_email" id="account_email" required 
+        <% if (locals.account_email) { %>
+            value="<%= locals.account_email %>">
+        <% } else { %> 
+            value="<%= locals.accountData.account_email %>">
+        <% } %>
     
     <button type="submit">Update</button>
+
+    <input type="hidden" name="account_id" value="<%= locals.accountData.account_id %>">
 </form>
 
 <form action="/account/update-password" method="post">

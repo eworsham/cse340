@@ -143,6 +143,48 @@ async function accountLogin(req, res) {
 }
 
 /* ****************************************
+ *  Process update account info request
+ * ************************************ */
+async function updateAccountInfo(req, res) {
+    let nav = await utilities.getNav()
+    const { account_firstname, account_lastname, account_email, account_id } = req.body
+    
+    const updateResult = await accountModel.updateAccountInfo(
+        account_firstname,
+        account_lastname,
+        account_email,
+        account_id
+    )
+  
+    if (updateResult) {
+        req.flash(
+            "notice",
+            `Congratulations, your information has been updated.`
+        )
+
+        const accountData = await accountModel.getAccountByEmail(account_email)
+        const accessToken = jwt.sign(accountData, process.env.ACCESS_TOKEN_SECRET, { expiresIn: 3600 * 1000 })
+        if(process.env.NODE_ENV === 'development') {
+            res.cookie("jwt", accessToken, { httpOnly: true, maxAge: 3600 * 1000 })
+        } else {
+            res.cookie("jwt", accessToken, { httpOnly: true, secure: true, maxAge: 3600 * 1000 })
+        }
+        
+        return res.redirect("/account/")
+    } else {
+        req.flash("notice", "Sorry, the update failed.")
+        res.status(501).render("account/update-account", {
+            title: "Edit Account",
+            nav,
+            errors: null,
+            account_firstname,
+            account_lastname,
+            account_email
+        })
+    }
+}
+
+/* ****************************************
  *  Process logout
  * ************************************ */
 async function accountLogout(req, res) {
@@ -152,4 +194,13 @@ async function accountLogout(req, res) {
     }
 }
   
-module.exports = { buildLogin, buildRegistration, registerAccount, accountLogin, buildAccountManagement, accountLogout, buildUpdateAccount }
+module.exports = { 
+    buildLogin, 
+    buildRegistration, 
+    registerAccount, 
+    accountLogin, 
+    buildAccountManagement, 
+    accountLogout, 
+    buildUpdateAccount,
+    updateAccountInfo
+}
