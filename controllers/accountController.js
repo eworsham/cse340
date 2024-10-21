@@ -17,6 +17,18 @@ async function buildAccountManagement(req, res, next) {
 }
 
 /* ****************************************
+ *  Deliver update account view
+ * *************************************** */
+async function buildUpdateAccount(req, res, next) {
+    let nav = await utilities.getNav()
+    res.render("account/update-account", {
+        title: "Edit Account",
+        nav,
+        errors: null
+    })
+}
+
+/* ****************************************
  *  Deliver login view
  * *************************************** */
 async function buildLogin(req, res, next) {
@@ -140,4 +152,4 @@ async function accountLogout(req, res) {
     }
 }
   
-module.exports = { buildLogin, buildRegistration, registerAccount, accountLogin, buildAccountManagement, accountLogout }
+module.exports = { buildLogin, buildRegistration, registerAccount, accountLogin, buildAccountManagement, accountLogout, buildUpdateAccount }

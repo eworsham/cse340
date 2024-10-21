@@ -13,6 +13,7 @@ router.get("/detail/:inventoryId", utilities.handleErrors(invController.buildVeh
 // Route to build management view
 router.get(
     "/", 
+    utilities.checkLogin,
     utilities.checkEmployeeAdmin,
     utilities.handleErrors(invController.buildManagementView)
 )
@@ -20,6 +21,7 @@ router.get(
 // Route to build add classification view
 router.get(
     "/add-classification", 
+    utilities.checkLogin,
     utilities.checkEmployeeAdmin,
     utilities.handleErrors(invController.buildAddClassificationView)
 )
@@ -27,6 +29,7 @@ router.get(
 // Route to build add inventory view
 router.get(
     "/add-inventory", 
+    utilities.checkLogin,
     utilities.checkEmployeeAdmin,
     utilities.handleErrors(invController.buildAddInventoryView)
 )
@@ -36,6 +39,7 @@ router.post(
     "/add-classification",
     inventoryValidate.newClassificationRules(),
     inventoryValidate.checkNewClassificationData,
+    utilities.checkLogin,
     utilities.checkEmployeeAdmin,
     utilities.handleErrors(invController.addNewClassification)
 )
@@ -45,6 +49,7 @@ router.post(
     "/add-inventory",
     inventoryValidate.newInventoryRules(),
     inventoryValidate.checkNewInventoryData,
+    utilities.checkLogin,
     utilities.checkEmployeeAdmin,
     utilities.handleErrors(invController.addNewInventory)
 )
@@ -52,13 +57,15 @@ router.post(
 // Route to get edit inventory info
 router.get(
     "/getInventory/:classification_id", 
+    utilities.checkLogin,
     utilities.checkEmployeeAdmin,
     utilities.handleErrors(invController.getInventoryJSON)
 )
 
 // Route to modify inventory
 router.get(
-    "/edit/:inventory_id", 
+    "/edit/:inventory_id",
+    utilities.checkLogin, 
     utilities.checkEmployeeAdmin,
     utilities.handleErrors(invController.modifyInventoryView)
 )
@@ -68,6 +75,7 @@ router.post(
     "/update/", 
     inventoryValidate.newInventoryRules(),
     inventoryValidate.checkUpdateData,
+    utilities.checkLogin,
     utilities.checkEmployeeAdmin,
     utilities.handleErrors(invController.updateInventory)
 )
@@ -75,6 +83,7 @@ router.post(
 // Route to get delete view
 router.get(
     "/delete/:inv_id", 
+    utilities.checkLogin,
     utilities.checkEmployeeAdmin,
     utilities.handleErrors(invController.deleteInventoryView)
 )
@@ -82,6 +91,7 @@ router.get(
 // Process delete inventory
 router.post(
     "/delete/", 
+    utilities.checkLogin,
     utilities.checkEmployeeAdmin,
     utilities.handleErrors(invController.deleteInventory)
 )
