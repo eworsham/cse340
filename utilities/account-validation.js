@@ -125,7 +125,7 @@ validate.checkLoginData = async (req, res, next) => {
     next()
   }
 
-  /*  **********************************
+/*  **********************************
  *  Edit Account Info Data Validation Rules
  * ********************************* */
 validate.editAccountInfoRules = () => {
@@ -188,6 +188,45 @@ validate.checkEditAccountInfoData = async (req, res, next) => {
         return
     }
     next()
-  }
-  
-  module.exports = validate
+}
+
+/*  **********************************
+ *  Update Password Data Validation Rules
+ * ********************************* */
+  validate.updatePasswordRules = () => {
+    return [
+        // password is required and must be strong password
+        body("account_password")
+            .trim()
+            .notEmpty()
+            .isStrongPassword({
+                minLength: 12,
+                minLowercase: 1,
+                minUppercase: 1,
+                minNumbers: 1,
+                minSymbols: 1,
+            })
+            .withMessage("Password does not meet requirements."),
+    ]
+}
+
+/* ******************************
+ * Check data and return errors or continue password update
+ * ***************************** */
+validate.checkPasswordData = async (req, res, next) => {
+    const { account_password } = req.body
+    let errors = []
+    errors = validationResult(req)
+    if (!errors.isEmpty()) {
+        let nav = await utilities.getNav()
+        res.render("account/update-account", {
+            errors,
+            title: "Edit Account",
+            nav
+        })
+        return
+    }
+    next()
+}
+
+module.exports = validate

@@ -169,7 +169,7 @@ async function updateAccountInfo(req, res) {
         } else {
             res.cookie("jwt", accessToken, { httpOnly: true, secure: true, maxAge: 3600 * 1000 })
         }
-        
+
         return res.redirect("/account/")
     } else {
         req.flash("notice", "Sorry, the update failed.")
@@ -180,6 +180,48 @@ async function updateAccountInfo(req, res) {
             account_firstname,
             account_lastname,
             account_email
+        })
+    }
+}
+
+/* ****************************************
+ *  Process update password
+ * *************************************** */
+async function updatePassword(req, res) {
+    let nav = await utilities.getNav()
+    const { account_password, account_id } = req.body
+
+    // Hash the password before storing
+    let hashedPassword
+    try {
+        // regular password and cost (salt is generated automatically)
+        hashedPassword = await bcrypt.hashSync(account_password, 10)
+    } catch (error) {
+        req.flash("notice", 'Sorry, there was an error processing the update.')
+        res.status(500).render("account/update-account", {
+            title: "Edit Account",
+            nav,
+            errors: null,
+        })
+    }
+  
+    const updateResult = await accountModel.updatePassword(
+        hashedPassword,
+        account_id
+    )
+  
+    if (updateResult) {
+        req.flash(
+            "notice",
+            `Congratulations, you\'re password was updated.`
+        )
+        res.redirect("/account/")
+    } else {
+        req.flash("notice", "Sorry, the update failed.")
+        res.status(501).render("account/update-account", {
+            title: "Edit Account",
+            nav,
+            errors: null,
         })
     }
 }
@@ -202,5 +244,6 @@ module.exports = {
     buildAccountManagement, 
     accountLogout, 
     buildUpdateAccount,
-    updateAccountInfo
+    updateAccountInfo,
+    updatePassword
 }
