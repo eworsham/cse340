@@ -26,7 +26,8 @@ body {
 }
 
 h1,
-h2 {
+h2,
+h3 {
   font-family: var(--header-font);
   margin: 1rem;
 }
@@ -294,6 +295,14 @@ nav ul li {
 }
 
 .login-form a {
+  text-decoration: underline;
+  color: blue;
+}
+
+/*****************************************
+*    Account Management
+******************************************/
+#accountManagement a {
   text-decoration: underline;
   color: blue;
 }
