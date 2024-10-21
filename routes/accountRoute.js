@@ -13,6 +13,9 @@ router.get(
 // Route to build login view
 router.get("/login", utilities.handleErrors(accountController.buildLogin))
 
+// Route to logout
+router.get("/logout", utilities.handleErrors(accountController.accountLogout))
+
 // Route to build registration view
 router.get("/registration", utilities.handleErrors(accountController.buildRegistration))
 
