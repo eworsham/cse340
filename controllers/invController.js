@@ -30,10 +30,16 @@ invCont.buildVehicleDetailsView = async function(req, res, next) {
     const vehicleYear = data.inv_year
     const vehicleMake = data.inv_make
     const vehicleModel = data.inv_model
+    
+    // Build vehicle reveiws view
+    const reviewsResult = await invModel.getReviewsByInvId(inventoryId)
+    const reviews = await utilities.buildVehicleReviewsView(reviewsResult)
+    
     res.render("./inventory/details", {
         title: `${data.inv_year} ${vehicleMake} ${vehicleModel}`,
         nav,
-        details
+        details,
+        reviews
     })
 }
 

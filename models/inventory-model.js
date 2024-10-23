@@ -172,6 +172,23 @@ async function deleteInventory(inv_id) {
     }
 }
 
+/* ******************************
+ * Get reviews by inv_id
+ * ****************************** */
+async function getReviewsByInvId(inventoryId) {
+    try {
+        const data = await pool.query(
+            `SELECT *
+            FROM public.review
+            WHERE inv_id = $1`,
+            [inventoryId]
+        )
+        return data.rows
+    } catch (error) {
+        console.error(`getReviewsByInvId error ${error}`)
+    }
+}
+
 module.exports = { 
     getClassifications,
     getInventoryByClassificationId,
@@ -179,5 +196,6 @@ module.exports = {
     insertClassificationItem,
     insertInventoryItem,
     updateInventory,
-    deleteInventory
+    deleteInventory,
+    getReviewsByInvId
 }
