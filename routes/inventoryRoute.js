@@ -96,4 +96,13 @@ router.post(
     utilities.handleErrors(invController.deleteInventory)
 )
 
+// Process add review
+router.post(
+    "/detail/add-review",
+    inventoryValidate.addReviewRules(),
+    inventoryValidate.checkAddReviewData,
+    utilities.checkLogin,
+    utilities.handleErrors(invController.addReview)
+)
+
 module.exports = router

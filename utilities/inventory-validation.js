@@ -1,4 +1,5 @@
 const utilities = require(".")
+const invModel = require("../models/inventory-model")
 const { body, validationResult } = require("express-validator")
 const validate = {}
 
@@ -174,6 +175,56 @@ validate.checkUpdateData = async (req, res, next) => {
             inv_miles,
             inv_color,
             inv_id
+        })
+        return
+    }
+    next()
+}
+
+/* ***********************************
+ *  Add Review Data Validation Rules
+ * *********************************** */
+validate.addReviewRules = () => {
+    return [
+        // review_text is required
+        body("review_text")
+            .trim()
+            .escape()
+            .notEmpty()
+            .withMessage("Please provide valid review text."),
+    ]
+}
+
+/* ***********************************
+ *  Check data and return errors or continue with add review
+ * *********************************** */
+validate.checkAddReviewData = async (req, res, next) => {
+    const { review_text, inv_id, account_id } = req.body
+
+    let errors = []
+    errors = validationResult(req)
+    if (!errors.isEmpty()) {
+        // Build nav
+        let nav = await utilities.getNav()
+
+        // Get vehicle details
+        const data = await invModel.getInventoryItemByInvId(inv_id)
+
+        // Build vehicle details view
+        const details = await utilities.buildVehicleDetailsView(data)
+
+        // Build vehicle reveiws view
+        const reviewsResult = await invModel.getReviewsByInvId(inv_id)
+        const reviews = await utilities.buildVehicleReviewsView(reviewsResult)
+
+        res.render("./inventory/details", {
+            errors,
+            title: `${data.inv_year} ${data.inv_make} ${data.inv_model}`,
+            nav,
+            details,
+            reviews,
+            inv_id,
+            review_text
         })
         return
     }

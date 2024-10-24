@@ -7,3 +7,22 @@
 <%- details %>
 
 <%- reviews %>
+
+<% if (errors) { %>
+    <ul class="notice">
+        <% errors.array().forEach(error => { %>
+            <li><%= error.msg %></li>
+        <% }) %>
+    </ul>
+<% } %>
+
+<% if (locals.accountData) { %>
+    <form action="/inv/detail/add-review" method="post" id="addReview">
+        <label for="review_text">Review</label>
+        <textarea name="review_text" id="review_text" required value="<%= locals.review_text %>"></textarea>
+    
+        <button type="submit">Add Review</button>
+        <input type="hidden" name="inv_id" value="<%= locals.inv_id %>">
+        <input type="hidden" name="account_id" value="<%= locals.accountData.account_id %>">
+    </form>
+<% } %>
