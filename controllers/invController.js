@@ -23,24 +23,74 @@ invCont.buildByClassificationId = async function (req, res, next) {
  * Build vehicle details view
  * ******************************************* */
 invCont.buildVehicleDetailsView = async function(req, res, next) {
-    const inventoryId = req.params.inventoryId
-    const data = await invModel.getInventoryItemByInvId(inventoryId)
+    const inv_id = req.params.inventoryId
+    const data = await invModel.getInventoryItemByInvId(inv_id)
     const details = await utilities.buildVehicleDetailsView(data)
     let nav = await utilities.getNav()
     const vehicleYear = data.inv_year
     const vehicleMake = data.inv_make
     const vehicleModel = data.inv_model
     
-    // Build vehicle reveiws view
-    const reviewsResult = await invModel.getReviewsByInvId(inventoryId)
+    // Build vehicle reviews view
+    const reviewsResult = await invModel.getReviewsByInvId(inv_id)
     const reviews = await utilities.buildVehicleReviewsView(reviewsResult)
     
     res.render("./inventory/details", {
-        title: `${data.inv_year} ${vehicleMake} ${vehicleModel}`,
+        title: `${vehicleYear} ${vehicleMake} ${vehicleModel}`,
         nav,
         details,
-        reviews
+        reviews,
+        errors: null,
+        inv_id
     })
+}
+
+/* *******************************************
+ * Proccess add review
+ * ******************************************* */
+invCont.addReview = async function(req, res) {
+    const inv_id = req.params.inventoryId
+    let nav = await utilities.getNav()
+    const { review_text, account_id }  = req.body
+
+    // const result = await invModel.addReview(review_text, inv_id, account_id)
+
+    if (result) {
+        req.flash(
+            "notice",
+            `The review was added.`
+        )
+
+        // Get vehicle data
+        const data = await invModel.getInventoryItemByInvId(inv_id)
+        const details = await utilities.buildVehicleDetailsView(data)
+
+        // Build vehicle reviews view
+        const reviewsResult = await invModel.getReviewsByInvId(inv_id)
+        const reviews = await utilities.buildVehicleReviewsView(reviewsResult)
+    
+        res.status(201).render("./inventory/details", {
+            title: `${data.inv_year} ${data.inv_make} ${data.inv_model}`,
+            nav,
+            details,
+            errors: null,
+            reviews,
+            inv_id
+        })
+    } else {
+        req.flash(
+            "notice",
+            "Sorry, adding review failed."
+        )
+        res.status(501).render("./inventory/details", {
+            title: `${data.inv_year} ${data.inv_make} ${data.inv_model}`,
+            nav,
+            details,
+            reviews,
+            errors: null,
+            inv_id
+        })
+    }
 }
 
 /* *******************************************

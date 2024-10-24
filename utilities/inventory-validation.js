@@ -199,7 +199,8 @@ validate.addReviewRules = () => {
  *  Check data and return errors or continue with add review
  * *********************************** */
 validate.checkAddReviewData = async (req, res, next) => {
-    const { review_text, inv_id, account_id } = req.body
+    const inv_id = req.params.inventoryId
+    const { review_text } = req.body
 
     let errors = []
     errors = validationResult(req)
@@ -216,6 +217,9 @@ validate.checkAddReviewData = async (req, res, next) => {
         // Build vehicle reveiws view
         const reviewsResult = await invModel.getReviewsByInvId(inv_id)
         const reviews = await utilities.buildVehicleReviewsView(reviewsResult)
+
+        // Direct user to form errors
+        req.flash("notice", "See errors below from adding new review")
 
         res.render("./inventory/details", {
             errors,

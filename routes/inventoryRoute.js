@@ -10,6 +10,15 @@ router.get("/type/:classificationId", utilities.handleErrors(invController.build
 // Route to build vehicle details view
 router.get("/detail/:inventoryId", utilities.handleErrors(invController.buildVehicleDetailsView))
 
+// Process add review
+router.post(
+    "/detail/:inventoryId",
+    inventoryValidate.addReviewRules(),
+    inventoryValidate.checkAddReviewData,
+    utilities.checkLogin,
+    utilities.handleErrors(invController.addReview)
+)
+
 // Route to build management view
 router.get(
     "/", 
@@ -94,15 +103,6 @@ router.post(
     utilities.checkLogin,
     utilities.checkEmployeeAdmin,
     utilities.handleErrors(invController.deleteInventory)
-)
-
-// Process add review
-router.post(
-    "/detail/add-review",
-    inventoryValidate.addReviewRules(),
-    inventoryValidate.checkAddReviewData,
-    utilities.checkLogin,
-    utilities.handleErrors(invController.addReview)
 )
 
 module.exports = router
