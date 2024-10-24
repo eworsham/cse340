@@ -53,7 +53,7 @@ invCont.addReview = async function(req, res) {
     let nav = await utilities.getNav()
     const { review_text, account_id }  = req.body
 
-    // const result = await invModel.addReview(review_text, inv_id, account_id)
+    const result = await invModel.addReview(review_text, inv_id, account_id)
 
     if (result) {
         req.flash(

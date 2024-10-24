@@ -189,6 +189,28 @@ async function getReviewsByInvId(inventoryId) {
     }
 }
 
+/* ******************************
+ * Add review
+ * ****************************** */
+async function addReview(review_text, inv_id, account_id) {
+    try {
+        const data = await pool.query(
+            `
+                INSERT INTO public.review (
+                    review_text,
+                    inv_id,
+                    account_id
+                )
+                VALUES ($1, $2, $3)
+            `,
+            [review_text, inv_id, account_id]
+        )
+        return data
+    } catch (error) {
+        console.error(`addReview error ${error}`)
+    }
+}
+
 module.exports = { 
     getClassifications,
     getInventoryByClassificationId,
@@ -197,5 +219,6 @@ module.exports = {
     insertInventoryItem,
     updateInventory,
     deleteInventory,
-    getReviewsByInvId
+    getReviewsByInvId,
+    addReview
 }
