@@ -27,4 +27,6 @@
         <input type="hidden" name="inv_id" value="<%= locals.inv_id %>">
         <input type="hidden" name="account_id" value="<%= locals.accountData.account_id %>">
     </form>
+<% } else { %>
+    <p><a href="/account/login"><span class="link">Login</span></a> to leave a review</p>
 <% } %>
