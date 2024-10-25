@@ -94,6 +94,85 @@ invCont.addReview = async function(req, res) {
 }
 
 /* *******************************************
+ * Build confirm delete review view
+ * ******************************************* */
+invCont.buildConfirmDeleteReviewView = async function(req, res, next) {
+    let nav = await utilities.getNav()
+
+    // Get review details by review_id
+    const review_id = req.params.review_id
+    const reviewResult = await invModel.getReviewByReviewId(review_id)
+    const review_text = reviewResult.review_text
+    const inv_id = reviewResult.inv_id
+
+    res.render('./inventory/confirm-delete-review.ejs', {
+        errors: null,
+        title: 'Delete Review',
+        nav,
+        review_id,
+        review_text,
+        inv_id
+    })
+}
+
+/* *******************************************
+ * Process delete review
+ * ******************************************* */
+invCont.deleteReview = async function(req, res, next) {
+    let nav = await utilities.getNav()
+
+    // Delete review by review_id
+    const review_id = req.params.review_id
+    const { review_text, inv_id }  = req.body
+    const result = await invModel.deleteReviewByReviewId(review_id)
+
+    if (result) {
+        req.flash(
+            "notice",
+            `The review was successfully deleted.`
+        )
+        
+        // Render vehicle details page
+        const data = await invModel.getInventoryItemByInvId(inv_id)
+        const details = await utilities.buildVehicleDetailsView(data)
+        const vehicleYear = data.inv_year
+        const vehicleMake = data.inv_make
+        const vehicleModel = data.inv_model
+        
+        // Build vehicle reviews view
+        const reviewsResult = await invModel.getReviewsByInvId(inv_id)
+        const reviews = await utilities.buildVehicleReviewsView(reviewsResult)
+        
+        res.render("./inventory/details", {
+            title: `${vehicleYear} ${vehicleMake} ${vehicleModel}`,
+            nav,
+            details,
+            reviews,
+            errors: null,
+            inv_id
+        })
+    } else {
+        req.flash(
+            "notice",
+            "Sorry, deleting review failed."
+        )
+
+        res.status(501).render('./inventory/confirm-delete-review.ejs', {
+            errors: null,
+            title: 'Delete Review',
+            nav,
+            review_id,
+            review_text,
+            inv_id
+        })
+    }
+
+
+
+    
+}
+
+/* *******************************************
  * Build management view
  * ******************************************* */
 invCont.buildManagementView = async function(req, res, next) {
@@ -340,6 +419,9 @@ invCont.deleteInventoryView = async (req, res, next) => {
 invCont.deleteInventory = async function(req, res) {
     let nav = await utilities.getNav()
     const { inv_id, inv_make, inv_model }  = req.body
+
+    // Delete all reviews before deleting inventory because of foreign key contraints
+    await invModel.deleteAllReviewsByInvId(inv_id)
 
     const result = await invModel.deleteInventory(inv_id)
 

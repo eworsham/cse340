@@ -21,7 +21,7 @@
 <% if (locals.accountData) { %>
     <form action="/inv/detail/<%= locals.inv_id %>" method="post" id="addReview">
         <label for="review_text">Review</label>
-        <textarea name="review_text" id="review_text" required value="<%= locals.review_text %>"></textarea>
+        <textarea name="review_text" id="review_text" required><%= locals.review_text %></textarea>
     
         <button type="submit">Add Review</button>
         <input type="hidden" name="inv_id" value="<%= locals.inv_id %>">

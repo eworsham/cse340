@@ -211,6 +211,56 @@ async function addReview(review_text, inv_id, account_id) {
     }
 }
 
+/* ******************************
+ * Get Review details by review_id
+ * ****************************** */
+async function getReviewByReviewId(review_id) {
+    try {
+        const sql = `
+            SELECT *
+            FROM public.review
+            WHERE review_id = $1
+        `
+        const data = await pool.query(sql, [review_id])
+        return data.rows[0]
+    } catch (error) {
+        console.error(`getReviewByReviewId error: ${error}`)
+    }
+}
+
+/* ******************************
+ * Delete review by review_id
+ * ****************************** */
+async function deleteReviewByReviewId(review_id) {
+    try {
+        const sql = `
+            DELETE FROM public.review
+            WHERE review_id = $1
+        `
+        return await pool.query(sql, [review_id])
+    } catch (error) {
+        console.error(`deleteReviewByReviewId error: ${error}`)
+    }
+}
+
+/* ******************************
+ * Delete all reviews by inv_id
+ * ****************************** */
+async function deleteAllReviewsByInvId(inv_id) {
+    try {
+        const data = await pool.query(
+            `
+                DELETE FROM public.review
+                WHERE inv_id = $1
+            `,
+            [inv_id]
+        )
+        return data
+    } catch (error) {
+        console.error(`deleteAllReviewByInvId error: ${error}`)
+    }
+}
+
 module.exports = { 
     getClassifications,
     getInventoryByClassificationId,
@@ -220,5 +270,8 @@ module.exports = {
     updateInventory,
     deleteInventory,
     getReviewsByInvId,
-    addReview
+    addReview,
+    getReviewByReviewId,
+    deleteReviewByReviewId,
+    deleteAllReviewsByInvId
 }

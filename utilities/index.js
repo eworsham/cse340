@@ -92,6 +92,7 @@ Util.buildVehicleReviewsView = async function (reviewsData) {
                     <p>${review.review_text}</p>
                     <p><span class="label">Reviewed On:</span> ${review.review_date}</p>
                     <p><span class="label">Reviewed By:</span> ${review.account_id}</p>
+                    <p><a href="/inv/detail/delete/${review.review_id}">Delete</a></p>
                 </div>
             `
         })
