@@ -33,7 +33,11 @@ invCont.buildVehicleDetailsView = async function(req, res, next) {
     
     // Build vehicle reviews view
     const reviewsResult = await invModel.getReviewsByInvId(inv_id)
-    const reviews = await utilities.buildVehicleReviewsView(reviewsResult)
+    let account_id = null
+    if (res.locals.accountData) {
+        account_id = res.locals.accountData.account_id
+    }
+    const reviews = await utilities.buildVehicleReviewsView(reviewsResult, account_id)
     
     res.render("./inventory/details", {
         title: `${vehicleYear} ${vehicleMake} ${vehicleModel}`,

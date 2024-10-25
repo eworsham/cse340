@@ -77,7 +77,7 @@ Util.buildVehicleDetailsView = async function (data) {
 /* ***************************************
  * Build the vehicle reviews view HTML
  * *************************************** */
-Util.buildVehicleReviewsView = async function (reviewsData) {
+Util.buildVehicleReviewsView = async function (reviewsData, account_id) {
     // Start reviews div
     let returnedView = `
         <div class="vehicle-reviews">
@@ -92,9 +92,14 @@ Util.buildVehicleReviewsView = async function (reviewsData) {
                     <p>${review.review_text}</p>
                     <p><span class="label">Reviewed On:</span> ${review.review_date}</p>
                     <p><span class="label">Reviewed By:</span> ${review.account_id}</p>
-                    <p><a href="/inv/detail/delete/${review.review_id}">Delete</a></p>
-                </div>
             `
+            if (review.account_id === account_id) {
+                returnedView += `
+                    <p><a href="/inv/detail/update/${review.review_id}">Update</a></p>
+                    <p><a href="/inv/detail/delete/${review.review_id}">Delete</a></p>
+                `
+            }
+            returnedView += `</div>`
         })
     } else {
         returnedView += '<p>No Reviews</p>'
