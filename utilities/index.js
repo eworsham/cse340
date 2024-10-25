@@ -91,7 +91,7 @@ Util.buildVehicleReviewsView = async function (reviewsData, account_id) {
                 <div class="review">
                     <p>${review.review_text}</p>
                     <p><span class="label">Reviewed On:</span> ${review.review_date}</p>
-                    <p><span class="label">Reviewed By:</span> ${review.account_id}</p>
+                    <p><span class="label">Reviewed By:</span> ${review.account_firstname} ${review.account_lastname}</p>
             `
             if (review.account_id === account_id) {
                 returnedView += `

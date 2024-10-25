@@ -65,22 +65,7 @@ invCont.addReview = async function(req, res) {
             `The review was added.`
         )
 
-        // Get vehicle data
-        const data = await invModel.getInventoryItemByInvId(inv_id)
-        const details = await utilities.buildVehicleDetailsView(data)
-
-        // Build vehicle reviews view
-        const reviewsResult = await invModel.getReviewsByInvId(inv_id)
-        const reviews = await utilities.buildVehicleReviewsView(reviewsResult)
-    
-        res.status(201).render("./inventory/details", {
-            title: `${data.inv_year} ${data.inv_make} ${data.inv_model}`,
-            nav,
-            details,
-            errors: null,
-            reviews,
-            inv_id
-        })
+        res.status(201).redirect(`/inv/detail/${inv_id}`)
     } else {
         req.flash(
             "notice",
@@ -135,26 +120,7 @@ invCont.deleteReview = async function(req, res, next) {
             "notice",
             `The review was successfully deleted.`
         )
-        
-        // Render vehicle details page
-        const data = await invModel.getInventoryItemByInvId(inv_id)
-        const details = await utilities.buildVehicleDetailsView(data)
-        const vehicleYear = data.inv_year
-        const vehicleMake = data.inv_make
-        const vehicleModel = data.inv_model
-        
-        // Build vehicle reviews view
-        const reviewsResult = await invModel.getReviewsByInvId(inv_id)
-        const reviews = await utilities.buildVehicleReviewsView(reviewsResult)
-        
-        res.render("./inventory/details", {
-            title: `${vehicleYear} ${vehicleMake} ${vehicleModel}`,
-            nav,
-            details,
-            reviews,
-            errors: null,
-            inv_id
-        })
+        res.status(201).redirect(`/inv/detail/${inv_id}`)
     } else {
         req.flash(
             "notice",
@@ -169,11 +135,7 @@ invCont.deleteReview = async function(req, res, next) {
             review_text,
             inv_id
         })
-    }
-
-
-
-    
+    }   
 }
 
 /* *******************************************

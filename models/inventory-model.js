@@ -177,12 +177,14 @@ async function deleteInventory(inv_id) {
  * ****************************** */
 async function getReviewsByInvId(inventoryId) {
     try {
-        const data = await pool.query(
-            `SELECT *
-            FROM public.review
-            WHERE inv_id = $1`,
-            [inventoryId]
-        )
+        const sql = `
+            SELECT review_id, review_text, review_date, a.account_id, account_firstname, account_lastname
+            FROM public.review r
+            JOIN public.account a
+                ON r.account_id = a.account_id
+            WHERE inv_id = $1
+        `
+        const data = await pool.query(sql, [inventoryId])
         return data.rows
     } catch (error) {
         console.error(`getReviewsByInvId error ${error}`)
