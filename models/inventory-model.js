@@ -173,7 +173,7 @@ async function deleteInventory(inv_id) {
 }
 
 /* ******************************
- * Get reviews by inv_id
+ * Get all reviews by inv_id
  * ****************************** */
 async function getReviewsByInvId(inventoryId) {
     try {
@@ -231,6 +231,22 @@ async function getReviewByReviewId(review_id) {
 }
 
 /* ******************************
+ * Update review_text by review_id
+ * ****************************** */
+async function updateReview(review_id, review_text) {
+    try {
+        const sql = `
+            UPDATE public.review
+            SET review_text = $1
+            WHERE review_id = $2
+        `
+        return await pool.query(sql, [review_text, review_id])
+    } catch (error) {
+        console.error(`updateReview error: ${error}`)
+    }
+}
+
+/* ******************************
  * Delete review by review_id
  * ****************************** */
 async function deleteReviewByReviewId(review_id) {
@@ -274,6 +290,7 @@ module.exports = {
     getReviewsByInvId,
     addReview,
     getReviewByReviewId,
+    updateReview,
     deleteReviewByReviewId,
     deleteAllReviewsByInvId
 }

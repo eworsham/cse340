@@ -105,6 +105,41 @@ invCont.buildUpdateReviewView = async function(req, res, next) {
 }
 
 /* *******************************************
+ * Process delete review
+ * ******************************************* */
+invCont.updateReview = async function(req, res, next) {
+    let nav = await utilities.getNav()
+
+    // Update review by review id
+    const review_id = req.params.review_id
+    const { review_text, inv_id } = req.body
+    const result = invModel.updateReview(review_id, review_text)
+
+    if (result) {
+        req.flash(
+            "notice",
+            "The review was successfully updated."
+        )
+
+        res.status(201).redirect(`/inv/detail/${inv_id}`)
+    } else {
+        req.flash(
+            "notice",
+            "Sorry, updating review failed."
+        )
+
+        res.status(501).render('./inventory/update-review.ejs', {
+            errors: null,
+            title: 'Update Review',
+            nav,
+            review_id,
+            inv_id,
+            review_text
+        })
+    }
+}
+
+/* *******************************************
  * Build confirm delete review view
  * ******************************************* */
 invCont.buildConfirmDeleteReviewView = async function(req, res, next) {
