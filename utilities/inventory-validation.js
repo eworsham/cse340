@@ -216,7 +216,10 @@ validate.checkAddReviewData = async (req, res, next) => {
 
         // Build vehicle reveiws view
         const reviewsResult = await invModel.getReviewsByInvId(inv_id)
-        const reviews = await utilities.buildVehicleReviewsView(reviewsResult)
+        if (res.locals.accountData) {
+            account_id = res.locals.accountData.account_id
+        }
+        const reviews = await utilities.buildVehicleReviewsView(reviewsResult, account_id)
 
         // Direct user to form errors
         req.flash("notice", "See errors below from adding new review")
@@ -227,6 +230,32 @@ validate.checkAddReviewData = async (req, res, next) => {
             nav,
             details,
             reviews,
+            inv_id,
+            review_text
+        })
+        return
+    }
+    next()
+}
+
+/* ***********************************
+ *  Check data and return errors or continue with update review
+ * *********************************** */
+validate.checkUpdateReviewData = async (req, res, next) => {
+    const review_id = req.params.review_id
+    const { review_text, inv_id } = req.body
+
+    let errors = []
+    errors = validationResult(req)
+    if (!errors.isEmpty()) {
+        // Build nav
+        let nav = await utilities.getNav()
+
+        res.render("./inventory/update-review.ejs", {
+            errors,
+            title: 'Update Review',
+            nav,
+            review_id,
             inv_id,
             review_text
         })

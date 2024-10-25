@@ -26,6 +26,15 @@ router.get(
     utilities.handleErrors(invController.buildUpdateReviewView)
 )
 
+// Process update review
+router.post(
+    "/detail/update/:review_id",
+    inventoryValidate.addReviewRules(),
+    inventoryValidate.checkUpdateReviewData,
+    utilities.checkLogin,
+    utilities.handleErrors(invController.updateReview)
+)
+
 // Route to bulid confirm delete review view
 router.get(
     "/detail/delete/:review_id",
