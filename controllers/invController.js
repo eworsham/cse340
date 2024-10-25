@@ -83,6 +83,28 @@ invCont.addReview = async function(req, res) {
 }
 
 /* *******************************************
+ * Build update review view
+ * ******************************************* */
+invCont.buildUpdateReviewView = async function(req, res, next) {
+    let nav = await utilities.getNav()
+
+    // Get review details by review_id
+    const review_id = req.params.review_id
+    const reviewResult = await invModel.getReviewByReviewId(review_id)
+    const review_text = reviewResult.review_text
+    const inv_id = reviewResult.inv_id
+
+    res.render('./inventory/update-review.ejs', {
+        errors: null,
+        title: 'Update Review',
+        nav,
+        review_id,
+        review_text,
+        inv_id
+    })
+}
+
+/* *******************************************
  * Build confirm delete review view
  * ******************************************* */
 invCont.buildConfirmDeleteReviewView = async function(req, res, next) {

@@ -19,6 +19,13 @@ router.post(
     utilities.handleErrors(invController.addReview)
 )
 
+// Route to build update review view
+router.get(
+    "/detail/update/:review_id",
+    utilities.checkLogin,
+    utilities.handleErrors(invController.buildUpdateReviewView)
+)
+
 // Route to bulid confirm delete review view
 router.get(
     "/detail/delete/:review_id",
