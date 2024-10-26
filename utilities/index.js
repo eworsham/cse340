@@ -87,14 +87,11 @@ Util.buildVehicleReviewsView = async function (reviewsData, account_id) {
     // If reviews, loop reviews and create
     if (reviewsData.length > 0) {
         reviewsData.forEach(review => {
-            const dateTime = new Date(review.review_date)
-            const formatedDateTime = dateTime.toLocaleString()
-
             returnedView += `
                 <div class="review">
                     <p>${review.review_text}</p>
                     <p class="review-details">${review.account_firstname} ${review.account_lastname}</p>
-                    <p class="review-details">${formatedDateTime}</p>
+                    <p class="review-details" id="timestamp">${review.review_date}</p>
             `
             if (review.account_id === account_id) {
                 returnedView += `
