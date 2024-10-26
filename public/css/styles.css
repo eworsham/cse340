@@ -291,6 +291,7 @@ nav ul li {
   display: grid;
   grid-template-columns: 1fr 1fr;
   margin: 1rem;
+  padding-bottom: 1rem;
   background-color: #eee;
   border-radius: .5rem;
   box-shadow: 0 0 1rem rgba(0, 0, 0, .3);
