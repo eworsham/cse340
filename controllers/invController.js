@@ -23,18 +23,176 @@ invCont.buildByClassificationId = async function (req, res, next) {
  * Build vehicle details view
  * ******************************************* */
 invCont.buildVehicleDetailsView = async function(req, res, next) {
-    const inventoryId = req.params.inventoryId
-    const data = await invModel.getInventoryItemByInvId(inventoryId)
+    const inv_id = req.params.inventoryId
+    const data = await invModel.getInventoryItemByInvId(inv_id)
     const details = await utilities.buildVehicleDetailsView(data)
     let nav = await utilities.getNav()
     const vehicleYear = data.inv_year
     const vehicleMake = data.inv_make
     const vehicleModel = data.inv_model
+    
+    // Build vehicle reviews view
+    const reviewsResult = await invModel.getReviewsByInvId(inv_id)
+    let account_id = null
+    if (res.locals.accountData) {
+        account_id = res.locals.accountData.account_id
+    }
+    const reviews = await utilities.buildVehicleReviewsView(reviewsResult, account_id)
+    
     res.render("./inventory/details", {
-        title: `${data.inv_year} ${vehicleMake} ${vehicleModel}`,
+        title: `${vehicleYear} ${vehicleMake} ${vehicleModel}`,
         nav,
-        details
+        details,
+        reviews,
+        errors: null,
+        inv_id
     })
+}
+
+/* *******************************************
+ * Proccess add review
+ * ******************************************* */
+invCont.addReview = async function(req, res) {
+    const inv_id = req.params.inventoryId
+    let nav = await utilities.getNav()
+    const { review_text, account_id }  = req.body
+
+    const result = await invModel.addReview(review_text, inv_id, account_id)
+
+    if (result) {
+        req.flash(
+            "notice",
+            `The review was added.`
+        )
+
+        res.status(201).redirect(`/inv/detail/${inv_id}`)
+    } else {
+        req.flash(
+            "notice",
+            "Sorry, adding review failed."
+        )
+        res.status(501).render("./inventory/details", {
+            title: `${data.inv_year} ${data.inv_make} ${data.inv_model}`,
+            nav,
+            details,
+            reviews,
+            errors: null,
+            inv_id
+        })
+    }
+}
+
+/* *******************************************
+ * Build update review view
+ * ******************************************* */
+invCont.buildUpdateReviewView = async function(req, res, next) {
+    let nav = await utilities.getNav()
+
+    // Get review details by review_id
+    const review_id = req.params.review_id
+    const reviewResult = await invModel.getReviewByReviewId(review_id)
+    const review_text = reviewResult.review_text
+    const inv_id = reviewResult.inv_id
+
+    res.render('./inventory/update-review.ejs', {
+        errors: null,
+        title: 'Update Review',
+        nav,
+        review_id,
+        review_text,
+        inv_id
+    })
+}
+
+/* *******************************************
+ * Process delete review
+ * ******************************************* */
+invCont.updateReview = async function(req, res, next) {
+    let nav = await utilities.getNav()
+
+    // Update review by review id
+    const review_id = req.params.review_id
+    const { review_text, inv_id } = req.body
+    const result = invModel.updateReview(review_id, review_text)
+
+    if (result) {
+        req.flash(
+            "notice",
+            "The review was successfully updated."
+        )
+
+        res.status(201).redirect(`/inv/detail/${inv_id}`)
+    } else {
+        req.flash(
+            "notice",
+            "Sorry, updating review failed."
+        )
+
+        res.status(501).render('./inventory/update-review.ejs', {
+            errors: null,
+            title: 'Update Review',
+            nav,
+            review_id,
+            inv_id,
+            review_text
+        })
+    }
+}
+
+/* *******************************************
+ * Build confirm delete review view
+ * ******************************************* */
+invCont.buildConfirmDeleteReviewView = async function(req, res, next) {
+    let nav = await utilities.getNav()
+
+    // Get review details by review_id
+    const review_id = req.params.review_id
+    const reviewResult = await invModel.getReviewByReviewId(review_id)
+    const review_text = reviewResult.review_text
+    const inv_id = reviewResult.inv_id
+
+    res.render('./inventory/confirm-delete-review.ejs', {
+        errors: null,
+        title: 'Delete Review',
+        nav,
+        review_id,
+        review_text,
+        inv_id
+    })
+}
+
+/* *******************************************
+ * Process delete review
+ * ******************************************* */
+invCont.deleteReview = async function(req, res, next) {
+    let nav = await utilities.getNav()
+
+    // Delete review by review_id
+    const review_id = req.params.review_id
+    const { review_text, inv_id }  = req.body
+    const result = await invModel.deleteReviewByReviewId(review_id)
+
+    if (result) {
+        req.flash(
+            "notice",
+            `The review was successfully deleted.`
+        )
+        res.status(201).redirect(`/inv/detail/${inv_id}`)
+    } else {
+        req.flash(
+            "notice",
+            "Sorry, deleting review failed."
+        )
+
+        res.status(501).render('./inventory/confirm-delete-review.ejs', {
+            errors: null,
+            title: 'Delete Review',
+            nav,
+            review_id,
+            review_text,
+            inv_id
+        })
+    }   
 }
 
 /* *******************************************
@@ -284,6 +442,9 @@ invCont.deleteInventoryView = async (req, res, next) => {
 invCont.deleteInventory = async function(req, res) {
     let nav = await utilities.getNav()
     const { inv_id, inv_make, inv_model }  = req.body
+
+    // Delete all reviews before deleting inventory because of foreign key contraints
+    await invModel.deleteAllReviewsByInvId(inv_id)
 
     const result = await invModel.deleteInventory(inv_id)
 

@@ -4,4 +4,29 @@
     res.render('/')
 } %>
 
+<%- messages() %>
+
 <%- details %>
+
+<%- reviews %>
+
+<% if (errors) { %>
+    <ul class="notice">
+        <% errors.array().forEach(error => { %>
+            <li><%= error.msg %></li>
+        <% }) %>
+    </ul>
+<% } %>
+
+<% if (locals.accountData) { %>
+    <form action="/inv/detail/<%= locals.inv_id %>" method="post" id="addReview">
+        <label for="review_text">Review</label>
+        <textarea name="review_text" id="review_text" required><%= locals.review_text %></textarea>
+    
+        <button type="submit">Add Review</button>
+        <input type="hidden" name="inv_id" value="<%= locals.inv_id %>">
+        <input type="hidden" name="account_id" value="<%= locals.accountData.account_id %>">
+    </form>
+<% } else { %>
+    <p><a href="/account/login"><span class="link">Login</span></a> to leave a review</p>
+<% } %>

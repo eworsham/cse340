@@ -75,6 +75,48 @@ Util.buildVehicleDetailsView = async function (data) {
 }
 
 /* ***************************************
+ * Build the vehicle reviews view HTML
+ * *************************************** */
+Util.buildVehicleReviewsView = async function (reviewsData, account_id) {
+    // Start reviews div
+    let returnedView = `
+        <div class="vehicle-reviews">
+            <h2>Reviews</h2>
+    `
+
+    // If reviews, loop reviews and create
+    if (reviewsData.length > 0) {
+        reviewsData.forEach(review => {
+            const dateTime = new Date(review.review_date)
+            const formatedDateTime = dateTime.toLocaleString()
+
+            returnedView += `
+                <div class="review">
+                    <p>${review.review_text}</p>
+                    <p class="review-details">${review.account_firstname} ${review.account_lastname}</p>
+                    <p class="review-details">${formatedDateTime}</p>
+            `
+            if (review.account_id === account_id) {
+                returnedView += `
+                    <div class="updateDeleteReview">
+                        <a href="/inv/detail/update/${review.review_id}">Update</a>
+                        <a href="/inv/detail/delete/${review.review_id}">Delete</a>
+                    </div>
+                `
+            }
+            returnedView += `</div>`
+        })
+    } else {
+        returnedView += '<p>No Reviews</p>'
+    }
+
+    // Close reviews div
+    returnedView += '</div>'
+
+    return returnedView
+}
+
+/* ***************************************
  * Middleware for Handling Errors
  * Wrap other function in this for
  * General Error Handling

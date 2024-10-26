@@ -1,0 +1,24 @@
+<% if (title) { %>
+    <h1><%= title %></h1>
+<% } else {
+    res.render('/')
+} %>
+
+<%- messages() %>
+
+<% if (errors) { %>
+    <ul class="notice">
+        <% errors.array().forEach(error => { %>
+            <li><%= error.msg %></li>
+        <% }) %>
+    </ul>
+<% } %>
+
+<form action="/inv/detail/delete/<%= locals.review_id %>" method="post" id="deleteReview">
+    <p>Confirm Deletion - The delete is permanent.</p>
+    <label for="review_text">Review</label>
+    <textarea name="review_text" id="review_text" required readonly><%= locals.review_text %></textarea>
+
+    <button type="submit">Delete Review</button>
+    <input type="hidden" name="inv_id" value="<%= locals.inv_id %>">
+</form>

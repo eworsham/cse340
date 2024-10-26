@@ -10,6 +10,45 @@ router.get("/type/:classificationId", utilities.handleErrors(invController.build
 // Route to build vehicle details view
 router.get("/detail/:inventoryId", utilities.handleErrors(invController.buildVehicleDetailsView))
 
+// Process add review
+router.post(
+    "/detail/:inventoryId",
+    inventoryValidate.addReviewRules(),
+    inventoryValidate.checkAddReviewData,
+    utilities.checkLogin,
+    utilities.handleErrors(invController.addReview)
+)
+
+// Route to build update review view
+router.get(
+    "/detail/update/:review_id",
+    utilities.checkLogin,
+    utilities.handleErrors(invController.buildUpdateReviewView)
+)
+
+// Process update review
+router.post(
+    "/detail/update/:review_id",
+    inventoryValidate.addReviewRules(),
+    inventoryValidate.checkUpdateReviewData,
+    utilities.checkLogin,
+    utilities.handleErrors(invController.updateReview)
+)
+
+// Route to bulid confirm delete review view
+router.get(
+    "/detail/delete/:review_id",
+    utilities.checkLogin,
+    utilities.handleErrors(invController.buildConfirmDeleteReviewView)
+)
+
+// Process delete review
+router.post(
+    "/detail/delete/:review_id",
+    utilities.checkLogin,
+    utilities.handleErrors(invController.deleteReview)
+)
+
 // Route to build management view
 router.get(
     "/", 
