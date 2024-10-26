@@ -183,6 +183,7 @@ async function getReviewsByInvId(inventoryId) {
             JOIN public.account a
                 ON r.account_id = a.account_id
             WHERE inv_id = $1
+            ORDER BY review_id ASC 
         `
         const data = await pool.query(sql, [inventoryId])
         return data.rows
